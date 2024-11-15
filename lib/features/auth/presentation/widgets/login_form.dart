@@ -21,6 +21,8 @@ class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  Color _emailIconColor = AppColors.textHint;
+  Color _passwordIconColor = AppColors.textHint;
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +61,18 @@ class _LoginFormState extends State<LoginForm> {
               CustomTextField(
                 controller: _emailController,
                 label: 'Email',
-                prefixIcon: Icon(Icons.email_outlined, color: AppColors.textHint),
+                prefixIcon: Icon(Icons.email_outlined, color: _emailIconColor),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
+                    setState(() => _emailIconColor = Colors.red);
                     return 'Please enter your email';
                   }
                   if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value!)) {
+                    setState(() => _emailIconColor = Colors.red);
                     return 'Please enter a valid email';
                   }
+                  setState(() => _emailIconColor = Theme.of(context).primaryColor);
                   return null;
                 },
               ),
@@ -75,7 +80,7 @@ class _LoginFormState extends State<LoginForm> {
               CustomTextField(
                 controller: _passwordController,
                 label: 'Password',
-                prefixIcon: const Icon(Icons.lock_outline),
+                prefixIcon: Icon(Icons.lock_outline, color: _passwordIconColor),
                 obscureText: _obscurePassword,
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -86,11 +91,14 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
+                    setState(() => _passwordIconColor = Colors.red);
                     return 'Please enter your password';
                   }
                   if (value!.length < 6) {
+                    setState(() => _passwordIconColor = Colors.red);
                     return 'Password must be at least 6 characters';
                   }
+                  setState(() => _passwordIconColor = Theme.of(context).primaryColor);
                   return null;
                 },
               ),

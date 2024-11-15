@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../../core/errors/exceptions.dart';
 import '../models/user_model.dart';
+import '../../../../core/constants/api_endpoints.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(String email, String password);
@@ -10,14 +11,13 @@ abstract class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final http.Client client;
-  final String baseUrl = 'https://localhost:90'; // Replace with your API URL
 
   AuthRemoteDataSourceImpl({required this.client});
 
   @override
   Future<UserModel> login(String email, String password) async {
     final response = await client.post(
-      Uri.parse('$baseUrl/login'),
+      Uri.parse(ApiEndpoints.login),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
         'email': email,
@@ -35,7 +35,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> logout() async {
     final response = await client.post(
-      Uri.parse('$baseUrl/logout'),
+      Uri.parse(ApiEndpoints.logout),
       headers: {'Content-Type': 'application/json'},
     );
 

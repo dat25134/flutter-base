@@ -4,9 +4,11 @@ import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'injection_container.dart' as di;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await di.init();
   runApp(const MyApp());
 }
