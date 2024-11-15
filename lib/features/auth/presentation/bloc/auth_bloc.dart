@@ -12,22 +12,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoading());
       
       final result = await loginUser(event.email, event.password);
-      print(result);;
+      
       result.fold(
-        (failure) => emit(AuthError(message: _mapFailureToMessage(failure))),
-        (user) => emit(AuthAuthenticated(user: user))
+        (failure) {
+          if (failure is ConnectionFailure) {
+            emit(AuthError(message: failure.message));
+          } else if (failure is NetworkFailure) {
+            emit(AuthError(message: 'Không có kết nối internet'));
+          } else if (failure is ServerFailure) {
+            emit(AuthError(message: 'Lỗi server'));
+          } else {
+            emit(AuthError(message: 'Đăng nhập thất bại'));
+          }
+        },
+        (user) => emit(AuthAuthenticated(user: user)),
       );
     });
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure:
-        return 'Server error occurred';
-      case NetworkFailure:
-        return 'Please check your internet connection';
-      default:
-        return 'Unexpected error';
-    }
   }
 } 

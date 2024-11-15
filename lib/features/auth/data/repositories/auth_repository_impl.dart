@@ -27,6 +27,8 @@ class AuthRepositoryImpl implements AuthRepository {
         return Right(remoteUser);
       } on ServerException {
         return Left(ServerFailure());
+      } on ConnectionException catch (e) {
+        return Left(ConnectionFailure(e.toString()));
       }
     } else {
       return Left(NetworkFailure());
