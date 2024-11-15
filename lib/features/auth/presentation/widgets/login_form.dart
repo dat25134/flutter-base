@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_decorations.dart';
+import '../../../../core/theme/app_text_styles.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
@@ -29,24 +32,13 @@ class _LoginFormState extends State<LoginForm> {
           child: Column(
             children: [
               const SizedBox(height: 40),
-              // Logo và Welcome Text
+              // Logo
               Hero(
                 tag: 'app_logo',
                 child: Container(
                   height: 120,
                   width: 120,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 1,
-                        blurRadius: 15,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                  ),
+                  decoration: AppDecorations.logoContainer,
                   child: Center(
                     child: SvgPicture.asset(
                       'assets/images/logo.svg',
@@ -57,27 +49,17 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               const SizedBox(height: 40),
-              Text(
-                'Welcome',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
+              // Welcome Text
+              Text('Welcome', style: AppTextStyles.headline),
               const SizedBox(height: 8),
-              Text(
-                'Sign in to continue',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.grey.shade600,
-                ),
-              ),
+              Text('Sign in to continue', style: AppTextStyles.subtitle),
               const SizedBox(height: 40),
 
               // Form Fields
               CustomTextField(
                 controller: _emailController,
                 label: 'Email',
-                prefixIcon: const Icon(Icons.email_outlined),
+                prefixIcon: Icon(Icons.email_outlined, color: AppColors.textHint),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
