@@ -29,16 +29,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return UserModel.fromJson(json.decode(response.body));
+        return UserModel.fromJson((json.decode(response.body))['data']);
       } else {
-        throw ServerException();
+        throw ServerException((json.decode(response.body))['message']);
       }
     } on SocketException {
       throw ConnectionException('Không thể kết nối đến server');
     } on TimeoutException {
       throw ConnectionException('Kết nối bị timeout');
     } catch (e) {
-      throw ConnectionException('Lỗi kết nối: ${e.toString()}');
+      throw ConnectionException('Lỗi: ${e.toString()}');
     }
   }
 
