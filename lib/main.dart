@@ -25,6 +25,12 @@ class MyApp extends StatelessWidget {
         create: (_) => di.sl<AuthBloc>(),
         child: const LoginPage(),
       ),
+      routes: {
+        '/login': (context) => BlocProvider(
+          create: (_) => di.sl<AuthBloc>(),
+          child: const LoginPage(),
+        ),
+      },
     );
   }
 }

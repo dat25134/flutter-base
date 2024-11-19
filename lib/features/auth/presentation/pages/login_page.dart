@@ -4,6 +4,7 @@ import '../bloc/auth_bloc.dart';
 import '../bloc/auth_state.dart';
 import '../widgets/login_form.dart';
 import '../../../../core/utils/cache_helper.dart';
+import '../../../home/presentation/pages/home_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -39,8 +40,11 @@ class LoginPage extends StatelessWidget {
                 );
               }
               if (state is AuthAuthenticated) {
-                // Navigate to home page
-                // Navigator.pushReplacementNamed(context, '/home');
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(user: state.user),
+                  ),
+                );
               }
             },
             child: const LoginForm(),
